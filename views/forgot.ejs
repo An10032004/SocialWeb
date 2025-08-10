@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Forgot Password</title>
+        <link rel="stylesheet" href="/css/login.css">
+    </head>
+
+    <% 
+    if(typeof message !== 'undefined'){
+        %>
+            <h4 style="color:red"><%= message %></h4>
+        <%
+    }
+%>
+    <body style="background: #949494">
+        <form action="/forgot-password-post" method="post" enctype="multipart/form-data">
+        <div class="box">
+            <div class="form">
+                
+                    <h2>Forgot Password</h2>
+                <div class="inputbox">
+                    <input type="email" name="email" id="email" required>
+                    <span>Email Address</span>
+                    <i></i>
+                </div>
+                <div class="links">
+                    <a href="/">Back to Login</a>
+                </div>
+                <input type="submit" value="Send Reset Link">
+                    
+            </div>
+        </div>
+    </form>
+    </body>
+</html>

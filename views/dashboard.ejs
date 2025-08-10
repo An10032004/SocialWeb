@@ -1,0 +1,411 @@
+<%-include('layouts/header.ejs') %>
+<link rel="stylesheet" href="/css/dashboard.css">
+<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
+
+<style>
+  
+  /* Existing styles */
+
+  /* User Sidebar Styles */
+  .user-sidebar {
+    position: fixed;
+    right: -300px;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background-color: #f8f9fa;
+    transition: 0.3s;
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 1000;
+    overflow-y: auto;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  }
+  .chat-section {
+    transition: 0.3s;
+    width: 100%;
+  }
+  .sidebar-open .chat-section {
+    width: calc(100% - 300px);
+  }
+  .user-sidebar.open {
+    right: 0;
+    
+  }
+  
+  .user-sidebar .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: #333;
+  }
+
+  .user-sidebar .user-info {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .user-sidebar .user-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+
+  .user-sidebar h2 {
+    margin: 10px 0;
+    color: #333;
+  }
+
+  .user-sidebar p {
+    margin: 5px 0;
+    color: #666;
+  }
+
+  .user-sidebar .user-details {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .user-sidebar .user-details h3 {
+    margin-top: 0;
+    color: #333;
+  }
+  .tooltip {
+    visibility: hidden; /* Ẩn mặc định */
+    transition: visibility 0s, opacity 0.3s linear; /* Hiệu ứng chuyển tiếp */
+}
+
+  .tooltip.shown{
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .box-typing{
+  position: relative;
+}
+
+.box-typing .inner-dots {
+  position: relative;
+  height: 20px;
+  width: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #efefef;
+  border-radius: 45px;
+  margin-top: 2px;
+}
+
+.box-typing .inner-dots span {
+  animation: blink 1.5s infinite;
+  height: 5px;
+  width: 5px;
+  background-color: #252525;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0px 3px;
+}
+
+.box-typing .inner-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.box-typing .inner-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0%{
+    opacity: 0.1;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+.no-friends-container {
+    padding: 2rem;
+    text-align: center;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .no-friends-icon {
+    font-size: 3rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+  }
+
+  .no-friends-title {
+    font-size: 1.5rem;
+    color: #343a40;
+    margin-bottom: 0.5rem;
+  }
+
+  .no-friends-subtitle {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+  }
+
+  .no-friends-steps {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+
+  .step {
+    flex-basis: calc(50% - 1rem);
+    margin-bottom: 1rem;
+  }
+
+  .step-number {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+  }
+
+  .no-friends-note {
+    font-style: italic;
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-find-friends {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+
+  .btn-find-friends i {
+    margin-right: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .no-friends-steps {
+      flex-direction: column;
+    }
+
+    .step {
+      flex-basis: 100%;
+    }
+  }
+</style>
+
+       <!-- User Sidebar -->
+<div class="user-sidebar" id="userSidebar">
+  <button class="close-btn" id="closeUserSidebar">&times;</button>
+  <div class="user-info">
+    <img src="" alt="User Avatar" class="user-avatar" id="sidebarUserImage">
+    <h2 id="sidebarUserName"></h2>
+    <p id="sidebarUserEmail"></p>
+    <p id="sidebarUserStatus"></p>
+  </div>
+  <div class="user-details">
+    <h3>Thông tin chi tiết</h3>
+    <p id="sidebarUserDetails"></p>
+    
+  </div>
+</div>
+        <form action="/search" method="post" class="form-inline my-2 my-lg-0 mb-4" id="searchForm" style="padding-bottom: 15px;">
+          <input class="form-control " type="text" name="name" id="name" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success  my-sm-0 hidden" type="submit"></button>
+        </form>  
+        <div class="row">
+          <div class="col-md-3">
+            <ul class="list-group">
+              <% if (users.length > 0) { %>
+                <% let hasFriends = false; %> <!-- Biến cờ để theo dõi -->
+                <% for (let i = 0; i < users.length; i++) { %>
+                  <% if (users[i]['isFriendStatus'] === 'accepted') { %>
+                    <% hasFriends = true; %>
+                    <li class="list-group-item list-group-item-light cursor-pointer user-list d-flex align-items-center" data-id="<%= users[i]['_id'] %>">
+                      <div class="user-status sidebarOwn">
+                        <img src="/<%= users[i]['image'] %>" alt="<%= users[i]['name'] %>" class="user-image">
+                        <span class="status-dot <%= users[i]['is_online'] == '1' ? 'online' : 'offline' %>" 
+                              id="<%= users[i]['_id'] %>-dot" 
+                              aria-hidden="true"></span>
+                      </div>
+                      <div>
+                        <%= users[i]['name'] %>
+                        
+                        <span class="sr-only" id="<%= users[i]['_id'] %>-status">
+                          <%= users[i]['is_online'] == '1' ? 'Online' : 'Offline' %>
+                        </span>
+                      </div>
+                    </li>
+                  <% } %>
+                <% } %>
+              
+                <% if (!hasFriends) { %> <!-- Hiển thị khi không có bạn bè -->
+                  <li class="list-group-item list-group-item-light no-friends-container">
+                    <div class="no-friends-instruction">
+                      <div class="no-friends-icon">
+                        <i class="fas fa-user-friends"></i>
+                      </div>
+                      <h3 class="no-friends-title">No Friends Yet?</h3>
+                      <p class="no-friends-subtitle">Let's build your network!</p>
+                      <div class="no-friends-steps">
+                        <div class="step">
+                          <span class="step-number">1</span>
+                          <p>Click "Find Friends" above</p>
+                        </div>
+                        <div class="step">
+                          <span class="step-number">2</span>
+                          <p>Browse or search for people</p>
+                        </div>
+                        <div class="step">
+                          <span class="step-number">3</span>
+                          <p>Send friend requests</p>
+                        </div>
+                        <div class="step">
+                          <span class="step-number">4</span>
+                          <p>Wait for acceptances</p>
+                        </div>
+                      </div>
+                      <p class="no-friends-note">Once they accept, they'll appear in your friends list here!</p>
+                      <a href="/friend" class="btn btn-primary btn-find-friends">
+                        <i class="fa fa-search"></i> Find Friends Now
+                      </a>
+                    </div>
+                  </li>
+                <% } %>
+              <% } %>
+              
+            </ul>
+          </div>
+          <div class="col-md-9">
+            <div class="chat-section">
+              <div class="inner-list-typing"></div> 
+
+              <div class="selected-user"></div>
+              <div class="chat-container"></div>
+             
+              <form action="" id="chat-form" method="POST" class="d-flex">
+                <input type="text" name="message" placeholder="Enter message" id="message" class="form-control flex-grow-1" required>
+                
+                <span class="button-icon btn btn-dark material-symbols-rounded" style="font-size: 20px;">
+                    sentiment_satisfied
+                </span>
+                <span type="button" id="file-upload" class="button-icon btn btn-dark material-symbols-rounded">attach_file</span>
+               <input type="submit" value="Send" class="btn btn-primary">
+              </form>
+              <div class="tooltip" role="tooltip" >
+                <emoji-picker class="dark" style="top:0;right: 0;"></emoji-picker>
+              </div>
+             
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+
+    
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteChatModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Delete Chat</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form id="delete-chat-form" method="post">
+            <div class="modal-body">
+              <input type="hidden" name="id" id="delete-message-id">
+              <p>Are you sure?</p>
+              <p><b id="delete-message"></b></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Update Modal -->
+    <div class="modal fade" id="editChatModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Edit Chat</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form id="update-chat-form" method="post">
+            <div class="modal-body">
+              <input type="hidden" name="id" id="edit-message-id">
+              <input type="text" name="message" id="update-message" class="form-control" required placeholder="Enter message">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script>
+      // Existing JavaScript code
+    
+      document.addEventListener('DOMContentLoaded', function() {
+        const userSidebar = document.getElementById('userSidebar');
+        const closeUserSidebar = document.getElementById('closeUserSidebar');
+        const userListItems = document.querySelectorAll('.user-list');
+        const chatSection = document.querySelector('.chat-section').closest('.col-md-9');
+        userListItems.forEach(item => {
+          item.addEventListener('click', function() {
+            const userId = this.dataset.id;
+            openUserSidebar(userId);
+          });
+        });
+    
+        closeUserSidebar.addEventListener('click', function() {
+          userSidebar.classList.remove('open');
+          chatSection.classList.remove('sidebar-open');
+        });
+    
+        function openUserSidebar(userId) {
+          const userElement = document.querySelector(`.user-list[data-id="${userId}"]`);
+          if (userElement) {
+            const userName = userElement.querySelector('div:last-child').textContent.trim();
+            const userImage = userElement.querySelector('img').src;
+            const userStatus = userElement.querySelector('.status-dot').classList.contains('online') ? 'Online' : 'Offline';
+    
+            document.getElementById('sidebarUserImage').src = userImage;
+            document.getElementById('sidebarUserName').textContent = userName;
+            document.getElementById('sidebarUserStatus').textContent = userStatus;
+            
+            // Thêm thông tin chi tiết nếu có
+            document.getElementById('sidebarUserDetails').textContent = `Thông tin chi tiết về ${userName}`;
+    
+            userSidebar.classList.add('open');
+            chatSection.classList.add('sidebar-open');
+          }
+        }
+      });
+      //file
+    </script>
+
+<%-include('layouts/footer.ejs') %>

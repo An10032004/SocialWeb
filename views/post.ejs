@@ -1,0 +1,621 @@
+<%- include('layouts/header') %>
+
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header_area {
+    background-color: #24177739;
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .logo h1 {
+    color: white;
+    margin: 0;
+  }
+
+  .content_area {
+    max-width: 1200px;
+    margin: 20px auto;
+    display: flex;
+    gap: 20px;
+  }
+
+  .main_content {
+    flex: 2;
+  }
+
+  .sidebar {
+    flex: 1;
+  }
+
+  .post-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .post-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+  }
+
+  .single_content_info {
+    padding: 15px;
+  }
+
+  .single_content_info h1 {
+    font-size: 18px;
+    margin: 0 0 10px 0;
+  }
+
+  .author {
+    font-size: 14px;
+    color: #65676b;
+    margin-bottom: 10px;
+  }
+
+  .post-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #65676b;
+    margin-bottom: 10px;
+  }
+
+  .post-actions {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #e4e6eb;
+    padding-top: 10px;
+  }
+
+  .like-btn, .comment-btn {
+    background: none;
+    border: none;
+    color: #65676b;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+
+  .like-btn:hover, .comment-btn:hover {
+    background-color: #f2f2f2;
+  }
+
+  .like-btn.active {
+    color: #1877f2;
+  }
+
+  .comments-section {
+    padding: 10px 15px;
+    background-color: #f0f2f5;
+    border-top: 1px solid #e4e6eb;
+  }
+
+  .comment {
+    background-color: white;
+    border-radius: 18px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+
+  .comment-form textarea {
+    width: 100%;
+    border: none;
+    border-radius: 18px;
+    padding: 10px 15px;
+    resize: none;
+    font-size: 13px;
+  }
+
+  .comment-form button {
+    background-color: #1877f2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    float: right;
+    margin-top: 8px;
+  }
+
+  .pagination {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .page-item {
+    margin: 0 5px;
+  }
+
+  .page-link {
+    background-color: #1877f2;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .page-link:hover {
+    background-color: #166fe5;
+  }
+
+  .sidebar .single_sidebar {
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar h2 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #1c1e21;
+  }
+
+  .search {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #dddfe2;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+
+  .single_popular {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .single_popular img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+
+  .single_popular h2 {
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .single_popular p {
+    font-size: 12px;
+    color: #65676b;
+    margin: 5px 0 0 0;
+  }
+
+  .footer_top_area {
+    background-color: #24177739;
+    color: white;
+    padding: 40px 0;
+  }
+
+  .footer_top {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .single_footer {
+    flex: 1;
+    margin-right: 20px;
+  }
+
+  .single_footer h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+
+  .single_footer ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .single_footer ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .footer_area {
+    background-color: #166fe5;
+    color: white;
+    padding: 20px 0;
+    font-size: 14px;
+  }
+
+  .footer_area .wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .social_area ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+  }
+
+  .social_area ul li {
+    margin-left: 10px;
+  }
+
+  .social_area ul li a {
+    color: white;
+    text-decoration: none;
+  }
+  @keyframes slideInLeft {
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .slide-in-left {
+    animation: slideInLeft 0.5s ease-out forwards;
+  }
+
+  .slide-in-right {
+    animation: slideInRight 0.5s ease-out forwards;
+  }
+
+  .main_content {
+    flex: 2;
+    opacity: 0; /* Start with opacity 0 */
+  }
+
+  .sidebar {
+    flex: 1;
+    opacity: 0; /* Start with opacity 0 */
+  }
+
+  .content_wrapper2 {
+    display: flex;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+  }
+
+  .user_suggestions {
+    flex: 1;
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    position: sticky;
+    top: 80px;
+  }
+
+  .user_suggestions h2 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #1c1e21;
+  }
+
+  .user_list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .user_item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #e4e6eb;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .user_item:last-child {
+    border-bottom: none;
+  }
+
+  .user_item.animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .user_avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+  }
+
+  .user_name {
+    font-size: 14px;
+    color: #1c1e21;
+  }
+
+  .main_content {
+    flex: 2;
+  }
+</style>
+
+<body>
+  <div class="header_area">
+    <div class="header">
+      <div class="logo">
+        <h1>SocialNet</h1>
+      </div>
+      <!-- Add navigation menu items here if needed -->
+    </div>
+  </div>
+
+  <div class="content_wrapper2">
+    <div class="user_suggestions">
+      <h2>Someone you may know</h2>
+      <ul class="user_list">
+        
+        <% users.forEach((user, index) => { %>
+          <li class="user_item" style="animation-delay:index * 100ms;">
+            <img src="<%= user.image %>" alt="<%= user.name %>" class="user_avatar">
+            <span class="user_name"><%= user.name %></span>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+</div>
+
+
+  <div class="content_area">
+    <div class="main_content">
+      <% if(posts.length > 0) { %>
+        <% for(let i = 0; i < posts.length; i++) { %>
+          <div class="post-card" data-post-id="<%= posts[i].id %>">
+            <img src='<%= posts[i].image %>' alt="<%= posts[i].title %>"/>
+            <div class="single_content_info">
+              <h1><%= posts[i].title %></h1>
+              <p class="author"><%= posts[i].content %></p>
+              <div class="post-meta">
+                <p><%= moment(posts[i].DateAt).fromNow() %></p>
+                <p>Posted by <%= posts[i].userName %></p>
+              </div>
+              <div class="post-actions">
+                <form action="/like/<%= posts[i].id %>" method="post">
+                  <button type="submit" class="like-btn">
+                    <i class="fas fa-heart"></i> <span class="like-count"><%= posts[i].likes %></span>
+                  </button>
+                </form>
+                <button class="comment-btn">
+                  <i class="fas fa-comment"></i> <span class="comment-count"><%= posts[i].comments.length %></span>
+                </button>
+              </div>
+              <div class="comments-section" style="display: none;">
+                <h3>Comments</h3>
+                <% if (posts[i].comments.length > 0) { %>
+                  <% for (let j = 0; j < posts[i].comments.length; j++) { %>
+                    <div class="comment">
+                      <p><strong><%= posts[i].comments[j].userName %>:</strong> <%= posts[i].comments[j].content %></p>
+                    </div>
+                  <% } %>
+                <% } else { %>
+                  <p>No comments yet.</p>
+                <% } %>
+                
+                <form class="comment-form" action="/comments/<%= posts[i].id %>" method="POST">
+                  <textarea name="commentContent" placeholder="Add your comment..." required></textarea>
+                  <button type="submit">Send</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        <% } %>
+      <% } %>
+
+      <nav>
+        <ul class="pagination">
+          <% if (pagination.current > 1) { %>
+            <li class="page-item">
+              <button class="page-link" data-pagination="1">First</button>
+            </li>
+            <li class="page-item">
+              <button class="page-link" data-pagination="<%= pagination.current - 1 %>">Previous</button>
+            </li>
+          <% } %>
+
+          <% for (var i = 1; i <= pagination.totalPages; i++) { %>
+            <li class="page-item <%= pagination.current == i ? 'active' : '' %>">
+              <button class="page-link" data-pagination="<%= i %>"><%= i %></button>
+            </li>
+          <% } %>
+
+          <% if (pagination.current < pagination.totalPages) { %>
+            <li class="page-item">
+              <button class="page-link" data-pagination="<%= pagination.current + 1 %>">Next</button>
+            </li>
+            <li class="page-item">
+              <button class="page-link" data-pagination="<%= pagination.totalPages %>">Last</button>
+            </li>
+          <% } %>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="sidebar">
+      <div class="single_sidebar">
+        <h2>Popular Posts</h2>
+        <% if(posts.length > 0) { %>
+          <% for(let i = 0; i < posts.length; i++) { %>
+            <% if(posts[i].popular === 'true') { %>
+              <div class="single_popular">
+                <img src="<%= posts[i].image %>" alt="<%= posts[i].title %>" />
+                <div>
+                  <h2><%= posts[i].title %></h2>
+                  <p><%= moment(posts[i].DateAt).fromNow() %></p>
+                </div>
+              </div>
+            <% } %>
+          <% } %>
+        <% } %>
+      </div>
+      <div class="single_sidebar">
+        <h2>Search</h2>
+        <input class="search" type="text" placeholder="Search and hit enter" />
+      </div>
+      <div class="single_sidebar">
+        <h2>About SocialNet</h2>
+        <p>SocialNet is a platform for connecting with friends, sharing moments, and discovering new content. Join our community today and start exploring!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer_top_area">
+    <div class="footer_top">
+      <div class="single_footer">
+        <h2>About Us</h2>
+        <p>SocialNet is dedicated to bringing people together and fostering meaningful connections. Our platform provides a space for sharing, learning, and growing together.</p>
+      </div>
+      <div class="single_footer">
+        <h2>Quick Links</h2>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/contact">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="single_footer">
+        <h2>Connect With Us</h2>
+        <p>Follow us on social media for the latest updates and news.</p>
+        <!-- Add social media icons here -->
+      </div>
+    </div>
+  </div>
+
+  <div class="footer_area">
+    <div class="wrap">
+      <div class="copyright_text">
+        <p>&copy; 2023 SocialNet. All rights reserved.</p>
+      </div>
+      <div class="social_area">
+        <ul>
+          <li><a href="#" class="facebook">Facebook</a></li>
+          <li><a href="#" class="twitter">Twitter</a></li>
+          <li><a href="#" class="instagram">Instagram</a></li>
+          <li><a href="#" class="linkedin">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const posts = document.querySelectorAll('.post-card');
+	  const mainContent = document.querySelector('.main_content');
+      const sidebar = document.querySelector('.sidebar');
+	  const userItems = document.querySelectorAll('.user_item');
+      // Trigger animations
+      setTimeout(() => {
+        mainContent.classList.add('slide-in-left');
+      }, 100);
+
+      setTimeout(() => {
+        sidebar.classList.add('slide-in-right');
+      }, 300);
+	  userItems.forEach((item, index) => {
+        setTimeout(() => {
+          item.classList.add('animate');
+        }, index * 100);
+      });
+      posts.forEach(post => {
+        const postId = post.dataset.postId;
+        const likeBtn = post.querySelector('.like-btn');
+        const commentBtn = post.querySelector('.comment-btn');
+        const commentsSection = post.querySelector('.comments-section');
+        const likeCount = likeBtn.querySelector('.like-count');
+    
+        // Load liked state from localStorage
+        const isLiked = localStorage.getItem(`post_${postId}_liked`) === 'true';
+        if (isLiked) {
+          likeBtn.classList.add('active');
+        }
+    
+        commentBtn.addEventListener('click', function() {
+          if (commentsSection.style.display === 'none') {
+            commentsSection.style.display = 'block';
+          } else {
+            commentsSection.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    const buttonPagination = document.querySelectorAll("[data-pagination]")
+
+    if (buttonPagination) {
+      let url = new URL(window.location.href)
+      buttonPagination.forEach(button => {
+        button.addEventListener("click", () => {
+            const page = button.getAttribute("data-pagination")
+            url.searchParams.set("page", page)
+            window.location.href = url.href
+          })
+        })
+      }
+    
+  </script>
+</body>
+
+<%- include('layouts/footer') %>
