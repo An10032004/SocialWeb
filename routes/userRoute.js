@@ -19,17 +19,18 @@ user_route.use(session({secret:SESSION_SECRET}))
 
 const path = require("path")
 const multer = require('multer')
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('../config/cloudinary'); // file config đã tạo ở bước 1
 
-const storage = multer.diskStorage({
-    destination:function(req,file,cb){
-        cb(null,path.join(__dirname,'../public/images'))
-    },
-    filename:function(req,file,cb){
-        const name = Date.now() + '-' + file.originalname
-        cb(null,name)
-    }
-})
-const upload = multer({storage:storage})
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'uploads', // tên folder trong Cloudinary
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+  },
+});
+
+const upload = multer({ storage });
 
 //route connect to userController
 const userController = require('../controllers/userController')

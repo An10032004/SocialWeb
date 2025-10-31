@@ -1,50 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Register</title>
-        <link rel="stylesheet" href="/css/login.css">
-    </head>
-    <body style="background: #949494">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Social Web</title>
+  <link rel="stylesheet" href="/css/register.css">
+</head>
+
+<body>
+  <div class="register-container">
+    <!-- Bên trái: Lời chào -->
+    <div class="welcome-section">
+      <div class="welcome-content">
+        <h1>Chào mừng bạn đến với <span>Social Web</span> 🌐</h1>
+        <p>
+          Hãy trở thành một phần của cộng đồng năng động và tích cực nhất!  
+          Nơi bạn có thể chia sẻ câu chuyện, kết bạn và cùng nhau tạo nên giá trị.
+        </p>
+      </div>
+    </div>
+
+    <!-- Bên phải: Form đăng ký -->
+    <div class="form-section">
+      <div class="form-box">
+        <h2>Đăng ký tài khoản</h2>
+
         <form action="" method="POST" enctype="multipart/form-data">
-            <div class="box" style="height: 550px;">
-                <div class="form" >
-                    <h2>Register</h2>
-                    <div class="inputbox">
-                        <input type="text" name="name" required>
-                        <span>Enter Name</span>
-                        <i></i>
-                    </div>
-                    <div class="inputbox">
-                        <input type="text" name="email" required>
-                        <span>Enter Email</span>
-                        <i></i>
-                    </div>
-                    <div class="inputbox">
-                        
-                       
-                        <input type="file" name="image"  value="Yours image" required style="color: white;" >
-                    </div>
-                    <div class="inputbox">
-                        <input type="password" name="password" required>
-                        <span>Enter Password</span>
-                        <i></i>
-                    </div>
-                    <div class="links">
-                       
-                        <a href="/">Sign in</a>
-                    </div>
-                    <input type="submit" value="Register">
-                    <% 
-                    if(typeof message !== 'undefined'){
-                        %>
-                            <p style="color:green; margin-top: 15px;"><%= message %></p>
-                        <%
-                    } 
-                    %>
-                </div>
-            </div>
+          <div class="inputbox">
+            <input type="text" name="name" required>
+            <span>Name</span>
+            <i></i>
+          </div>
+          <div class="inputbox">
+            <input type="email" name="email" required>
+            <span>Email</span>
+            <i></i>
+          </div>
+          <div class="inputbox filebox">
+            <label for="image">Upload Image</label>
+            <input id="image" type="file" name="image" required>
+          </div>
+          <div class="inputbox">
+            <input type="password" name="password" required>
+            <span>Password</span>
+            <i></i>
+          </div>
+
+          <div class="links">
+            <a href="/">Already have an account? Sign in</a>
+          </div>
+
+          <input type="submit" value="Register">
         </form>
-    </body>
+
+        <% if (typeof message !== 'undefined') { %>
+          <p class="message"><%= message %></p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</body>
 </html>

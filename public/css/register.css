@@ -1,0 +1,214 @@
+/* Reset & Font */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  height: 100vh;
+  background: linear-gradient(135deg, #1b1f3b, #2d325a);
+  color: #fff;
+}
+
+/* Container chia đôi màn hình */
+.register-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+/* Bên trái - Khu chào mừng */
+.welcome-section {
+  width: 50%;
+  background: linear-gradient(135deg, #101226, #3a3f77);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px;
+  box-shadow: inset -10px 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.welcome-content {
+  max-width: 450px;
+  text-align: left;
+  animation: fadeIn 1s ease;
+}
+
+.welcome-content h1 {
+  font-size: 2.3rem;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.welcome-content h1 span {
+  color: #4fc3f7;
+}
+
+.welcome-content p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #d1d1e0;
+}
+
+/* Bên phải - Form đăng ký */
+.form-section {
+  width: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.form-box {
+  width: 80%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.6s ease;
+}
+
+.form-box h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #4fc3f7;
+}
+
+/* Input Box */
+.inputbox {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.inputbox input {
+  width: 100%;
+  padding: 12px 10px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #777;
+  outline: none;
+  color: #fff;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+.inputbox span {
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  color: #aaa;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+.inputbox input:focus ~ span,
+.inputbox input:valid ~ span {
+  transform: translateY(-20px);
+  font-size: 0.9rem;
+  color: #4fc3f7;
+}
+
+.inputbox i {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0%;
+  background: #4fc3f7;
+  transition: 0.3s;
+}
+
+.inputbox input:focus ~ i {
+  width: 100%;
+}
+
+/* File Upload */
+.filebox {
+  display: flex;
+  flex-direction: column;
+}
+
+.filebox label {
+  font-size: 0.9rem;
+  color: #4fc3f7;
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+
+.filebox input[type="file"] {
+  border: none;
+  color: #fff;
+}
+
+/* Links */
+.links {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.links a {
+  color: #4fc3f7;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+/* Submit Button */
+input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(135deg, #4fc3f7, #0097a7);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+input[type="submit"]:hover {
+  background: linear-gradient(135deg, #00acc1, #0288d1);
+}
+
+/* Message */
+.message {
+  text-align: center;
+  color: #11f643;
+  margin-top: 15px;
+}
+
+/* Hiệu ứng */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .register-container {
+    flex-direction: column;
+  }
+  .welcome-section, .form-section {
+    width: 100%;
+    max-width: 1500px;
+    height: 50%;
+  }
+  .welcome-content {
+    text-align: center;
+  }
+}

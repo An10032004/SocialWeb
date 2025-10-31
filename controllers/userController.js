@@ -30,7 +30,7 @@ const register = async(req,res) => {
         const userModel =   new User({
             name : req.body.name,
             email: req.body.email,
-            image:'images/' + req.file.filename,
+            image: req.file.path,
             password:req.body.password
         })
 
@@ -178,7 +178,7 @@ const createGroup = async (req,res) => {
         const group = new Group({
             creator_id:req.session.user._id,
             name:req.body.name,
-            image:'images/' +req.file.filename,
+            image:req.file.path,
             limit:req.body.limit
         })
         
@@ -283,7 +283,7 @@ const updateChatGroup = async (req,res) => {
         if(req.file != undefined){
             updateObj = {
                 name:req.body.name,
-                image: 'image/'+ req.file.filename,
+                image: req.file.path,
                 limit:req.body.limit
             }
         }
@@ -387,7 +387,7 @@ const submitPost = async (req,res) => {
         title:title,
         content:content,
         popular:popular,
-        image:'images/' + req.file.filename,
+        image:req.file.path,
         DateAt:new Date()
     })
     
